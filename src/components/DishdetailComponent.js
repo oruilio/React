@@ -29,10 +29,8 @@ class DishDetail extends Component{
         if(dish!=null){
             const com = dish.comments.map((ele)=>
                 <li key={ele.id}>
-                    <ul className="list-unstyled">{ele.comment}</ul>
-                    <br/>
-                    <ul className="list-unstyled">-- {ele.author} , {ele.date}</ul>
-                    <br/>
+                    <p>{ele.comment}</p>
+                    <p>-- {ele.author} , {new Intl.DateTimeFormat('en-US',{year: 'numeric', month: 'short',day: '2-digit'}).format(new Date(Date.parse(ele.date)))}</p>
                 </li>);
             
             return (
