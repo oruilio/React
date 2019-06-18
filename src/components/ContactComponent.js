@@ -25,7 +25,8 @@ class Contact extends Component{
         this.handleInputChange=this.handleInputChange.bind(this);
         this.handleBlur=this.handleBlur.bind(this);
     }
-
+    
+    //得到input的内容
     handleInputChange(event){
         const target=event.target;
         const value=target.type ==='checkbox'? target.checked:target.value;
@@ -35,19 +36,22 @@ class Contact extends Component{
             [name]: value
         })
     }
-
+    
+    //点了submit以后提交框显示内容
     handleSubmit(event){
         console.log("Current State is: "+ JSON.stringify(this.state))
         alert("Current State is: "+ JSON.stringify(this.state))
         event.preventDefault();
     }
 
+    //确认窗被填写
     handleBlur=(field)=>(evt)=>{
         this.setState({
             touched:{...this.state.touched, [field]: true}
         });
     }
 
+    //窗被填写后如何处理
     validate(firstname, lastname, telnum, email){
         const errors = {
             firstname: '',
@@ -66,12 +70,13 @@ class Contact extends Component{
         else if(this.state.touched.lastname&&lastname.length>10)
             errors.lastname='Last Name should be <=10 characters';
         
-        const reg=/^\d+$/;
-        if(this.state.touched.telnum&&!reg.test(telnum))
-            errors.telnum='Tel. Number should contain only numbers';
+        //此处有问题，没有办法正确判断全数字和@符号
+        //const reg=/^\d+$/;
+        //if(this.state.touched.telnum&&!reg.test(telnum))
+            //errors.telnum='Tel. Number should contain only numbers';
         
-        if(this.state.touched.email&&email.split('').filter(x=>x==='@').length !== 1)
-            errors.email='Email should contain a @';
+        //if(this.state.touched.email&&email.split('').filter(x=>x==='@').length !== 1)
+            //errors.email='Email should contain a @';
         
         return errors;
     }
