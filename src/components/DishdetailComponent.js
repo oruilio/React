@@ -27,8 +27,8 @@ class CommentForm extends Component{
     }
 
     handleSubmit(values){
-        console.log("Current State is: "+ JSON.stringify(values))
-        alert("Current State is: "+ JSON.stringify(values));
+        this.toggleModal();
+        this.props.addComment(this.props.dishId, values.rating, values.author, values.comment)
     }
 
 
@@ -58,8 +58,8 @@ class CommentForm extends Component{
                             </Row>
                             <Row className="form-group">
                                 <Col>
-                                    <Label htmlFor="yourname">Your Name</Label>
-                                    <Control.text model=".name" id="name" name="name"
+                                    <Label htmlFor="author">Your Name</Label>
+                                    <Control.text model=".author" id="author" name="author"
                                         placeholder="Your Name" 
                                         className="form-control" 
                                         validators={{
@@ -68,7 +68,7 @@ class CommentForm extends Component{
                                     />
                                     <Errors
                                         className="text-danger"
-                                        model=".name"
+                                        model=".author"
                                         show="touched"
                                         messages={{
                                             required: 'Required',
@@ -80,8 +80,8 @@ class CommentForm extends Component{
                             </Row>
                             <Row className="form-group">
                                 <Col>
-                                    <Label htmlFor="message">Comment</Label>
-                                    <Control.textarea model=".message" id="message" name="message"
+                                    <Label htmlFor="comment">Comment</Label>
+                                    <Control.textarea model=".comment" id="commemt" name="comment"
                                         rows="6"
                                         className="form-control"
                                     />
@@ -115,7 +115,7 @@ class CommentForm extends Component{
         }
     }
 
-    function RenderComments({comments}){
+    function RenderComments({comments, addComment, dishId}){
         if(comments!=null){
 
             const com = comments.map((ele)=>
@@ -128,7 +128,7 @@ class CommentForm extends Component{
                 <div>
                     <h4>Comments</h4>
                     <ul className="list-unstyled">{com}</ul>
-                    <CommentForm />
+                    <CommentForm dishId={dishId} addComment={addComment}/>
                 </div>
             );
         }
@@ -157,7 +157,9 @@ class CommentForm extends Component{
                         <RenderDish dish={props.dish} />
                     </div>
                     <div className="col-12 col-md-5 m-1">
-                        <RenderComments comments={props.comment} />
+                        <RenderComments comments={props.comment} 
+                            addComment={props.addComment}
+                            dishId={props.dish.id}/>
                     </div>     
                 </div>  
             </div>    
