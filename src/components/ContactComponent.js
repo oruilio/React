@@ -13,13 +13,25 @@ class Contact extends Component{
 
     constructor(props){
         super(props);
-    
+
+        this.state={
+            isModalOpen:false
+        }
+
+        this.toggleModal=this.toggleModal.bind(this);
         this.handleSubmit=this.handleSubmit.bind(this);
     }
-    
+
+    toggleModal(){
+        this.setState({
+            isModalOpen: !this.state.isModalOpen
+        });
+    }
+
     //点了submit以后提交框显示内容
     handleSubmit(values){
-        console.log("Current State is: "+ JSON.stringify(values))
+        this.toggleModal();
+        this.props.postFeedback(values.firstname, values.lastname, values.telnum, values.email, values.agree, values.contactType, values.message)
         alert("Current State is: "+ JSON.stringify(values));
         this.props.resetFeedbackForm();
     }
